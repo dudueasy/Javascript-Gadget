@@ -16,23 +16,22 @@
 
         // method2 getVideo through filtering video.offsetHeight
         let videos = document.querySelectorAll('video')
-        if (videos) {
+        if (videos[0]) {
             videos = Array.from(videos)
             let currentVideo = videos.filter((currentElement) => currentElement.offsetHeight !== 0)[0]
-
 
             // force video preload
             currentVideo.preload = 'auto'
             return currentVideo
         }
         else {
-            console.log('找不到video标签')
+            // console.log('找不到video标签')
             return undefined
         }
     }
 
 
-//specify functions
+    //specify functions
     function vidPlayPause() {
         if (video().paused) {
             video().play();
@@ -61,6 +60,17 @@
         }
     }
 
+    function speedUp() {
+        video().playbackRate += 0.1
+        console.log(`current playback speed: ${video().playbackRate}`)
+    }
+
+    function speedDown() {
+        if (video().playbackRate >= 0.5)
+            video().playbackRate -= 0.1
+        console.log(`current playback speed: ${video().playbackRate}`)
+    }
+
     function fullScreen() {
         if (document.webkitIsFullScreen) {
             video().webkitExitFullScreen();
@@ -70,7 +80,7 @@
         }
     }
 
-//global eventListener
+    //global eventListener
     window.addEventListener('keydown', function (e) {
         // e.preventDefault()
         let key = e.keyCode;
@@ -95,44 +105,48 @@
             //arrowLeft
             if (key === 37) {
                 e.preventDefault()
-
                 vidBackward(currentStep);
             }
             //arrowRight
 
             if (key === 39) {
                 e.preventDefault()
-
                 vidForward(currentStep);
             }
 
             //arrowUp
             if (key === 38) {
                 e.preventDefault()
-
                 volumeUp();
             }
 
             if (key === 40) {
                 e.preventDefault()
-
                 volumeDown();
             }
-            //Space key
 
+            //Space key
             if (key === 32) {
                 e.preventDefault()
-
                 vidPlayPause();
             }
             //F key
             if (key === 70) {
                 e.preventDefault()
-
                 fullScreen();
             }
-        }
 
+            // . key
+            if (key === 190) {
+                e.preventDefault()
+                speedUp()
+            }
+
+            // , key
+            if (key === 188) {
+                speedDown()
+            }
+        }
     });
 })()
 
